@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protegido por Senha</title>
+  <style>
+    body {
+      text-align: center;
+      padding: 50px;
+      font-family: Arial, sans-serif;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #imagemSecreto {
+      display: none;
+      max-width: 100%;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Esta página é protegida por senha</h1>
+  <p>Por favor, insira a senha:</p>
+  <input type="password" id="senhaInput">
+  <button onclick="verificarSenha()">Entrar</button>
+
+  <img src="PIZZADA.png" alt="Imagem Secreta" id="imagemSecreto">
+
+  <script>
+    function verificarSenha() {
+      var senhaDigitada = document.getElementById("senhaInput").value;
+      var senhaCorreta = "123"; // Substitua com sua senha desejada
+
+      if (senhaDigitada === senhaCorreta) {
+        alert("Senha correta! Bem-vindo!");
+        exibirImagemSecreta();
+      } else {
+        alert("Senha incorreta. Tente novamente.");
+      }
+    }
+
+    function exibirImagemSecreta() {
+      var imagemSecreto = document.getElementById("imagemSecreto");
+      imagemSecreto.style.display = "block";
+    }
+  </script>
+</body>
+</html>
