@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Protegido por Senha</title>
   <style>
-  
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
@@ -26,6 +25,7 @@
       height: 100%;
       background-color: rgba(255, 255, 255, 0.8);
       z-index: 1;
+      animation: fadeIn 0.5s ease-in-out;
     }
 
     .container {
@@ -40,35 +40,37 @@
       animation: slideIn 0.5s ease-in-out;
     }
 
+    h1, p, select, input, button {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease-in-out forwards;
+    }
+
     h1 {
       color: #333;
-      animation: fadeInUp 0.5s ease-in-out;
     }
 
     p {
       color: #555;
-      animation: fadeInUp 0.5s ease-in-out;
+      margin-bottom: 20px;
     }
 
-    input {
+    select, input, button {
       width: 100%;
       padding: 10px;
       font-size: 16px;
       margin-bottom: 10px;
       box-sizing: border-box;
-      animation: fadeInUp 0.5s ease-in-out;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
       cursor: pointer;
       background-color: #4caf50;
       color: #fff;
       border: none;
       border-radius: 4px;
-      animation: fadeInUp 0.5s ease-in-out;
     }
 
     #imagemSecreto {
@@ -105,29 +107,96 @@
         transform: translateX(0);
       }
     }
+
+    /* Responsividade */
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
-  <div class="container">
-    <h1>Parabéns você chegou ao último desafio</h1>
-    <p>Por favor, insira a senha:</p>
+  <div class="container" id="teamSelection">
+    <h1>Escolha sua equipe:</h1>
+    <select id="equipeSelecionada">
+      <option value="AVA">Equipe AVA</option>
+      <option value="PRO">Equipe PRO</option>
+      <option value="BAIRRO">Equipe BAIRRO</option>
+      <option value="CENTRO">Equipe CENTRO</option>
+      <option value="PLIS">Equipe PLIS</option>
+    </select>
+    <button onclick="iniciarAutenticacao()">Próximo</button>
+  </div>
+
+  <div class="container" id="authentication" style="display: none;">
+    <h1>Você chegou no último passo:</h1>
+    <p>Insira a senha da equipe:</p>
     <input type="password" id="senhaInput">
     <button onclick="verificarSenha()">Entrar</button>
-
-    <img src="PIZZADA.png" alt="Imagem Secreta" id="imagemSecreto">
+    <p></p>
+    <img src="PIZZADA.png" alt="Imagem Secreta" id="imagemSecreto" style="display: none;">
   </div>
 
   <script>
-    function verificarSenha() {
-      var senhaDigitada = document.getElementById("senhaInput").value;
-      var senhaCorreta = "123"; // Substitua com sua senha desejada
+    function iniciarAutenticacao() {
+      var teamSelectionContainer = document.getElementById("teamSelection");
+      var authenticationContainer = document.getElementById("authentication");
+      
+      // Oculta a seleção da equipe e exibe a autenticação
+      teamSelectionContainer.style.display = "none";
+      authenticationContainer.style.display = "block";
+    }
 
-      if (senhaDigitada === senhaCorreta) {
-        alert("Senha correta! Bem-vindo!");
+    function verificarSenha() {
+      var equipeSelecionada = document.getElementById("equipeSelecionada").value;
+      var senhaDigitada = document.getElementById("senhaInput").value;
+      var equipe = null;
+
+      switch (equipeSelecionada) {
+        case "AVA":
+          equipe = "AVA";
+          break;
+        case "PRO":
+          equipe = "PRO";
+          break;
+        case "BAIRRO":
+          equipe = "BAIRRO";
+          break;
+        case "CENTRO":
+          equipe = "CENTRO";
+          break;
+        case "PLIS":
+          equipe = "PLIS";
+          break;
+        default:
+          equipe = null;
+      }
+
+      if (equipe !== null && senhaValida(equipe, senhaDigitada)) {
+        alert("Parábens " + equipe + "! Vocês Ganharam o Caça Tesouro!");
         exibirImagemSecreta();
       } else {
         alert("Senha incorreta. Tente novamente.");
+      }
+    }
+
+    function senhaValida(equipe, senhaDigitada) {
+      // Adicione as senhas corretas para cada equipe
+      switch (equipe) {
+        case "AVA":
+          return senhaDigitada === "1984";
+        case "PRO":
+          return senhaDigitada === "40anos";
+        case "BAIRRO":
+          return senhaDigitada === "anorotaon";
+        case "CENTRO":
+          return senhaDigitada === "#confranoro";
+        case "PLIS":
+          return senhaDigitada === "40%";
+        default:
+          return false;
       }
     }
 
